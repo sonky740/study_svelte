@@ -1,8 +1,17 @@
 <script>
   import Header from './components/ui/Header.svelte';
   import MeetupGrid from './components/meetups/MeetupGrid.svelte';
+  import TextInput from './components/ui/TextInput.svelte';
+  import Button from './components/ui/Button.svelte';
 
-  const meetups = [
+  let title = '';
+  let subtitle = '';
+  let address = '';
+  let email = '';
+  let description = '';
+  let imageUrl = '';
+
+  let meetups = [
     {
       id: 'm1',
       title: 'Coding Bootcamp',
@@ -26,11 +35,68 @@
       contactEmail: 'swim@test.com',
     },
   ];
+
+  function addMeetup() {
+    const newMeetup = {
+      id: Math.random().toString(),
+      title,
+      subtitle,
+      description,
+      imageUrl,
+      address,
+      contactEmail: email,
+    };
+
+    // meetups.push(newMeetup); // DOES NOT WORK!
+    meetups = [newMeetup, ...meetups];
+    console.log(meetups);
+  }
 </script>
 
 <Header />
 
 <main>
+  <form on:submit|preventDefault={addMeetup}>
+    <TextInput
+      label="Title"
+      id="title"
+      value={title}
+      on:input={(e) => (title = e.target.value)}
+    />
+    <TextInput
+      label="SubTitle"
+      id="subtitle"
+      value={subtitle}
+      on:input={(e) => (subtitle = e.target.value)}
+    />
+    <TextInput
+      label="address"
+      id="address"
+      value={address}
+      on:input={(e) => (address = e.target.value)}
+    />
+    <TextInput
+      label="imageURL"
+      id="imageUrl"
+      value={imageUrl}
+      on:input={(e) => (imageUrl = e.target.value)}
+    />
+    <TextInput
+      label="E-Mail"
+      type="email"
+      id="email"
+      value={email}
+      on:input={(e) => (email = e.target.value)}
+    />
+    <TextInput
+      label="Description"
+      id="description"
+      value={description}
+      on:input={(e) => (description = e.target.value)}
+      controlType="textarea"
+    />
+    <Button type="submit" caption="Save" />
+  </form>
   <MeetupGrid {meetups} />
 </main>
 

@@ -1,4 +1,5 @@
 <script>
+  import Button from '../ui/Button.svelte';
   export let meetup;
 </script>
 
@@ -15,9 +16,9 @@
     <p>{meetup.description}</p>
   </div>
   <footer>
-    <a href="mailto:{meetup.contactEmail}">Contact</a>
-    <button>Show Details</button>
-    <button>Favorite</button>
+    <Button href="mailto:{meetup.contactEmail}" caption="Contact" />
+    <Button mode="outline" caption="Show Details" />
+    <Button caption="Favorite" />
   </footer>
 </article>
 
@@ -72,5 +73,9 @@
 
   div {
     text-align: right;
+  }
+
+  .content {
+    height: 4rem;
   }
 </style>
