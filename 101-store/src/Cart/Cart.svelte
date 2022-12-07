@@ -1,7 +1,12 @@
 <script>
   import { onDestroy } from 'svelte';
+  import { timer } from '../store/timer';
   import cartItems from '../store/cart';
   import CartItem from './CartItem.svelte';
+
+  const unsubscribe = timer.subscribe((count) => {
+    console.log('Cart: ', count);
+  });
 
   // $변수를 쓰면 아래 함수를 알아서 호출해줌.
 
@@ -10,11 +15,11 @@
   //   items = its;
   // }); // 데이터가 바뀔 때 실행하는 함수
 
-  // onDestroy(() => {
-  //   if (unsubscribe) {
-  //     unsubscribe();
-  //   }
-  // }); // 컴포넌트가 파괴될 때 실행하는 함수
+  onDestroy(() => {
+    if (unsubscribe) {
+      unsubscribe();
+    }
+  }); // 컴포넌트가 파괴될 때 실행하는 함수
 </script>
 
 <section>
