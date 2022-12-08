@@ -1,7 +1,8 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  import Button from "../UI/Button.svelte";
-  import Badge from "../UI/Badge.svelte";
+  import { createEventDispatcher } from 'svelte';
+  import meetups from '../store/meetups';
+  import Button from '../UI/Button.svelte';
+  import Badge from '../UI/Badge.svelte';
 
   export let id;
   export let title;
@@ -13,7 +14,44 @@
   export let isFav;
 
   const dispatch = createEventDispatcher();
+
+  function toggleFavoriteHandler() {
+    meetups.toggleFavorite(id);
+  }
 </script>
+
+<article>
+  <header>
+    <h1>
+      {title}
+      {#if isFav}
+        <Badge>FAVORITE</Badge>
+      {/if}
+    </h1>
+    <h2>{subtitle}</h2>
+    <p>{address}</p>
+  </header>
+  <div class="image">
+    <img src={imageUrl} alt={title} />
+  </div>
+  <div class="content">
+    <p>{description}</p>
+  </div>
+  <footer>
+    <Button href="mailto:{email}">Contact</Button>
+    <Button
+      mode="outline"
+      color={isFav ? null : 'success'}
+      type="button"
+      on:click={toggleFavoriteHandler}
+    >
+      {isFav ? 'Unfavorite' : 'Favorite'}
+    </Button>
+    <Button type="button" on:click={() => dispatch('showdetails', id)}>
+      Show Details
+    </Button>
+  </footer>
+</article>
 
 <style>
   article {
@@ -43,7 +81,7 @@
   h1 {
     font-size: 1.25rem;
     margin: 0.5rem 0;
-    font-family: "Roboto Slab", sans-serif;
+    font-family: 'Roboto Slab', sans-serif;
   }
 
   h1.is-favorite {
@@ -72,33 +110,3 @@
     height: 4rem;
   }
 </style>
-
-<article>
-  <header>
-    <h1>
-      {title}
-      {#if isFav}
-        <Badge>FAVORITE</Badge>
-      {/if}
-    </h1>
-    <h2>{subtitle}</h2>
-    <p>{address}</p>
-  </header>
-  <div class="image">
-    <img src={imageUrl} alt={title} />
-  </div>
-  <div class="content">
-    <p>{description}</p>
-  </div>
-  <footer>
-    <Button href="mailto:{email}">Contact</Button>
-    <Button
-      mode="outline"
-      color={isFav ? null : 'success'}
-      type="button"
-      on:click={() => dispatch('togglefavorite', id)}>
-      {isFav ? 'Unfavorite' : 'Favorite'}
-    </Button>
-    <Button type="button">Show Details</Button>
-  </footer>
-</article>
