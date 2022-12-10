@@ -8,6 +8,7 @@
   let selectedMeetup;
 
   const unsubscribe = meetups.subscribe((items) => {
+    console.log(items);
     selectedMeetup = items.find((i) => i.id === id);
   });
 
