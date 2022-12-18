@@ -10,7 +10,6 @@
   export let imageUrl;
   export let description;
   export let address;
-  export let email;
   export let isFav;
 
   let isLoading = false;
@@ -76,9 +75,7 @@
         {isFav ? 'Unfavorite' : 'Favorite'}
       {/if}
     </Button>
-    <Button type="button" on:click={() => dispatch('showdetails', id)}>
-      Show Details
-    </Button>
+    <Button href="/{id}">Show Details</Button>
   </footer>
 </article>
 
